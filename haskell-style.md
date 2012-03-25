@@ -39,9 +39,6 @@ definition "=" symbol on the next line.
 
 TODO: Example of this
 
-
-```haskell
-
 ### Blank Lines
 
 One blank line between top-level definitions.     No blank lines between
