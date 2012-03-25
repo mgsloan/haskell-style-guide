@@ -1,10 +1,9 @@
-Haskell Style Guide
+MGSloan Haskell Style
 ===================
 
-This is a short document describing the preferred coding style for
-this project.  I've tried to cover the major areas of formatting and
-naming.  When something isn't covered by this guide you should stay
-consistent with the code in the other modules.
+This is a short document describing my preferred Haskell style, which
+is a somewhat compactified version of the style outlined in tibbe's
+haskell-style-guide.
 
 Formatting
 ----------
@@ -15,29 +14,37 @@ Maximum line length is *80 characters*.
 
 ### Indentation
 
-Tabs are illegal. Use spaces for indenting.  Indent your code blocks
-with *4 spaces*.  Indent the `where` keyword two spaces to set it
-apart from the rest of the code and indent the definitions in a
-`where` clause 2 spaces. Some examples:
+Tabs are illegal. Use a minimal number spaces for indenting, while
+still having consistent indentation.  This ends up being giving
+everything *2 space* indents, with `where` indented by one.
 
 ```haskell
 sayHello :: IO ()
 sayHello = do
-    name <- getLine
-    putStrLn $ greeting name
-  where
-    greeting name = "Hello, " ++ name ++ "!"
+  name <- getLine
+  putStrLn $ greeting name
+ where
+  greeting name = "Hello, " ++ name ++ "!"
 
 filter :: (a -> Bool) -> [a] -> [a]
-filter _ []     = []
+filter _ []   = []
 filter p (x:xs)
-    | p x       = x : filter p xs
-    | otherwise = filter p xs
+  | p x       = x : filter p xs
+  | otherwise = filter p xs
 ```
+
+When definitions get longer than one line, and the root of the expression
+is not a short `do` / `let` / `if` / `case` introduction, place the function
+definition "=" symbol on the next line.
+
+TODO: Example of this
+
+
+```haskell
 
 ### Blank Lines
 
-One blank line between top-level definitions.  No blank lines between
+One blank line between top-level definitions.     No blank lines between
 type signatures and function definitions.  Add one blank line between
 functions in a type class instance declaration if the functions bodies
 are large.  Use your judgement.
@@ -47,7 +54,8 @@ are large.  Use your judgement.
 Surround binary operators with a single space on either side.  Use
 your better judgement for the insertion of spaces around arithmetic
 operators but always be consistent about whitespace on either side of
-a binary operator.  Don't insert a space after a lambda.
+a binary operator.  Don't insert a space after a lambda.  Pad
+multiline parenthesis with a space.
 
 ### Data Declarations
 
@@ -62,30 +70,30 @@ For long type names the following formatting is also acceptable:
 
 ```haskell
 data HttpException
-    = InvalidStatusCode Int
-    | MissingContentHeader
+  = InvalidStatusCode Int
+  | MissingContentHeader
 ```
 
 Format records as follows:
 
 ```haskell
 data Person = Person
-    { firstName :: String  -- ^ First name
-    , lastName  :: String  -- ^ Last name
-    , age       :: Int     -- ^ Age
-    } deriving (Eq, Show)
+  { firstName :: String  -- ^ First name
+  , lastName  :: String  -- ^ Last name
+  , age       :: Int     -- ^ Age
+  } deriving (Eq, Show)
 ```
 
-### List Declarations
+### Serial Declarations
 
-Align the elements in the list.  Example:
+Align the elements of lists, tuples, and curly brace/semicolon syntax.  Example:
 
 ```haskell
 exceptions =
-    [ InvalidStatusCode
-    , MissingContentHeader
-    , InternalServerError
-    ]
+  [ InvalidStatusCode
+  , MissingContentHeader
+  , InternalServerError
+  ]
 ```
 
 Optionally, you can skip the first newline.  Use your judgement.
@@ -97,6 +105,9 @@ directions = [ North
              , West
              ]
 ```
+
+TODO: Extend this to boolean operators (particularly ($) and (.))
+
 
 ### Pragmas
 
@@ -141,15 +152,15 @@ Format export lists as follows:
 
 ```haskell
 module Data.Set
-    (
-      -- * The @Set@ type
-      Set
-    , empty
-    , singleton
+  ( 
+  -- * The @Set@ type
+    Set
+  , empty
+  , singleton
 
-      -- * Querying
-    , member
-    ) where
+  -- * Querying
+  , member
+  ) where
 ```
 
 Imports
@@ -207,13 +218,13 @@ comments for data type definitions.  Some examples:
 
 ```haskell
 data Parser = Parser
-    Int         -- Current position
-    ByteString  -- Remaining input
+  Int         -- Current position
+  ByteString  -- Remaining input
 
 foo :: Int -> Int
 foo n = salt * 32 + 9
-  where
-    salt = 453645243  -- Magic hash salt.
+ where
+  salt = 453645243  -- Magic hash salt.
 ```
 
 ### Links
